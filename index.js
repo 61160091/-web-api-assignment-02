@@ -4,6 +4,7 @@ const app = express()
 app.use(express.json())
 let books = []
 
+// POST /books
 app.post('/books', (req, res) => {
     //input
     let newTitle = req.body.title
@@ -18,7 +19,7 @@ app.post('/books', (req, res) => {
         price: newPrice,
         unit: newUnit,
         isbn: newIsbn,
-        image_url: newImage
+        image_url: newImage,
     }
 
     let bookID = 0
@@ -26,6 +27,7 @@ app.post('/books', (req, res) => {
     //process
     books.push(newBook)
 
+    
     bookID = books.length - 1
 
     //output
@@ -33,6 +35,18 @@ app.post('/books', (req, res) => {
     res.status(201).json(bookID)
 })
 
-const port = 3000
+app.get('/books/:id', (req, res) => {
+    //input
+    let id = req.params.id
 
+    let book = {}
+
+    //process
+    book = books[id]
+
+    //output
+    res.status(200).json(book)
+})
+
+const port = 3000
 app.listen(3000, () => console.log(`Server started at ${port}`))
